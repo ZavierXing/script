@@ -41,15 +41,11 @@ fi
 
 read  -p "请输入公钥(id_rsa.pub)的web下载地址：" url
 if [ -z "${url}" ];then
-	url="http://files.oblivione.com/script/ssh-by-key/id_rsa.pub"
+	url="https://raw.githubusercontent.com/ZavierXing/script/master/ssh_by_key/id_ecdsa.pub"
 fi
 wget -c ${url} -O ~/.ssh/authorized_keys
 chmod 644 ~/.ssh/authorized_keys
 mv /etc/ssh/sshd_config /etc/ssh/sshd_config_back
-wget http://files.oblivione.com/script/ssh-by-key/sshd_config -O /etc/ssh/sshd_config
+wget https://raw.githubusercontent.com/ZavierXing/script/master/ssh_by_key/sshd_config -O /etc/ssh/sshd_config
 
-if [ "$dist_name" == "CentOS" ] ; then
-    /etc/init.d/sshd restart
-else
-    /etc/init.d/ssh restart
-fi
+systemctl restart sshd.service
