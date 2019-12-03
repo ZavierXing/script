@@ -43,7 +43,14 @@ read  -p "请输入公钥(id_rsa.pub)的web下载地址：" url
 if [ -z "${url}" ];then
 	url="https://raw.githubusercontent.com/ZavierXing/script/master/ssh_by_key/id_ecdsa.pub"
 fi
+
 wget -c ${url} -O ~/.ssh/authorized_keys
+
+if [! test -s  ~/.ssh/authorized_keys];then
+    echo "私钥文件内容空"
+    exit
+fi
+
 chmod 644 ~/.ssh/authorized_keys
 mv /etc/ssh/sshd_config /etc/ssh/sshd_config_back
 wget https://raw.githubusercontent.com/ZavierXing/script/master/ssh_by_key/sshd_config -O /etc/ssh/sshd_config
